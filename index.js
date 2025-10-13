@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import dbConnect from './config/dbConnect.js';
@@ -12,9 +12,22 @@ dbConnect();
 
 const app = express();
 
-// ✅ Correct CORS setup
+// ✅ CORS setup for local dev + deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://my-playgo-frontend-6za9wlpph-shriharinis-projects.vercel.app"
+];
+
 app.use(cors({
-  origin: 'https://my-playgo-frontend-6za9wlpph-shriharinis-projects.vercel.app/ ',
+  origin: function(origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (!allowedOrigins.includes(origin)) {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
