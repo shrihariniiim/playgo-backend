@@ -14,7 +14,7 @@ const app = express();
 
 // ✅ Correct CORS setup
 app.use(cors({
-  origin: 'https://my-playgo-frontend.vercel.app',
+  origin: 'https://my-playgo-frontend-6za9wlpph-shriharinis-projects.vercel.app/ ',
   credentials: true
 }));
 
